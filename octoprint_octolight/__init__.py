@@ -97,7 +97,7 @@ class OctoLightPlugin(
 		 # Send Light Toggle Gcode Command
 		 # Get new Light State
 
-		OctoPrint.control.sendGcode(self._settings.get(["gCodeToggleCommand"]))
+		octoprint.control.sendGcode(self._settings.get(["gCodeToggleCommand"]))
 		#OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
 		self.light_state = self.get_state()
 		
@@ -105,7 +105,7 @@ class OctoLightPlugin(
 
 	def get_state(self):
 		
-		OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
+		octoprint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
 		
 
 	def on_api_get(self, request):
