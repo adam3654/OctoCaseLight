@@ -136,6 +136,7 @@ class OctoLightPlugin(
 
 	def on_event(self, event, payload):
 		if event == Events.CLIENT_OPENED:
+			self.get_state()
 			self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 			return
 
