@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import octoprint.plugin
-import octoprint.control
+#import octoprint.control
 
 from octoprint.events import Events
 import flask
