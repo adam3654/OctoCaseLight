@@ -21,19 +21,19 @@ plugin_version = "0.1.3"
 plugin_description = """A simple plugin, that add's a button to the navbar, toggleing GPIO on the RPi. It can be used for turning on and off a light."""
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
-plugin_author = "Žiga Kralj"
+plugin_author = "Adam Wellington"
 
 # The plugin's author's mail address.
-plugin_author_email = "public@zigakralj.com"
+plugin_author_email = "adam3654@gmail.com"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
-plugin_url = "https://github.com/gigibu5/OctoLight"
+plugin_url = "https://github.com/adam3654/OctoLight"
 
 # The plugin's license. Can be overwritten within OctoPrint's internal data via __plugin_license__ in the plugin module
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ["RPi.GPIO"]
+## plugin_requires = ["RPi.GPIO"]
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point

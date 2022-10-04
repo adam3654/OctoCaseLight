@@ -2,6 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 
 import octoprint.plugin
+import octoprint.control
+
 from octoprint.events import Events
 import flask
 
@@ -24,8 +26,9 @@ class OctoLightPlugin(
 
 	def get_settings_defaults(self):
 		return dict(
-			light_pin = 13,
-			inverted_output = False
+			gCodeStateCommand = "M355",
+			gCodeToggleCommand = "M355 T"
+			
 		)
 
 	def get_template_configs(self):
@@ -47,51 +50,40 @@ class OctoLightPlugin(
 		self.light_state = False
 		self._logger.info("--------------------------------------------")
 		self._logger.info("OctoLight started, listening for GET request")
-		self._logger.info("Light pin: {}, inverted_input: {}".format(
-			self._settings.get(["light_pin"]),
-			self._settings.get(["inverted_output"])
+		self._logger.info("Toggle_Command: {}, State_Command: {}".format(
+			self._settings.get(["gCodeToggleCommand"]),
+			self._settings.get(["gCodeStateCommand"])
 		))
 		self._logger.info("--------------------------------------------")
 
 		# Setting the default state of pin
-		GPIO.setup(int(self._settings.get(["light_pin"])), GPIO.OUT)
-		if bool(self._settings.get(["inverted_output"])):
-			GPIO.output(int(self._settings.get(["light_pin"])), GPIO.HIGH)
-		else:
-			GPIO.output(int(self._settings.get(["light_pin"])), GPIO.LOW)
 
-		#Because light is set to ff on startup we don't need to retrieve the current state
-		"""
-		r = self.light_state = GPIO.input(int(self._settings.get(["light_pin"])))
-        if r==1:
-                self.light_state = False
-        else:
-                self.light_state = True
+		# TODO:
+		# Send GCode Command "gCodeStateCommand" and log response (Recv: echo:Case light: ON)
+		# If State= ON then set light_state = True, else False
 
-        self._logger.info("After Startup. Light state: {}".format(
-                self.light_state
-        ))
-        """
+		
 
 		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
 	def light_toggle(self):
 		# Sets the GPIO every time, if user changed it in the settings.
-		GPIO.setup(int(self._settings.get(["light_pin"])), GPIO.OUT)
+		 # TODO:
+		 # Send Light Toggle Gcode Command
+		 # Get new Light State
 
-		self.light_state = not self.light_state
-
-		# Sets the light state depending on the inverted output setting (XOR)
-		if self.light_state ^ self._settings.get(["inverted_output"]):
-			GPIO.output(int(self._settings.get(["light_pin"])), GPIO.HIGH)
-		else:
-			GPIO.output(int(self._settings.get(["light_pin"])), GPIO.LOW)
-
-		self._logger.info("Got request. Light state: {}".format(
-			self.light_state
-		))
-
+		OctoPrint.control.sendGcode(self._settings.get(["gCodeToggleCommand"]))
+		OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
+		self.light_state = self.get_state()
+		
 		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
+
+	def get_state(self):
+		new_State = False
+		## TODO:
+		## Get Light State
+		## Set light_state accordingly
+		return new_State
 
 	def on_api_get(self, request):
 		action = request.args.get('action', default="toggle", type=str)
@@ -133,9 +125,9 @@ class OctoLightPlugin(
 				type="github_release",
 				current=self._plugin_version,
 
-				user="gigibu5",
+				user="adam3654",
 				repo="OctoLight",
-				pip="https://github.com/gigibu5/OctoLight/archive/{target}.zip"
+				pip="https://github.com/adam3654/OctoLight/archive/{target}.zip"
 			)
 		)
 
