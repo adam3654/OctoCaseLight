@@ -7,10 +7,6 @@ import octoprint.control
 from octoprint.events import Events
 import flask
 
-import RPi.GPIO as GPIO
-
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
 
 class OctoLightPlugin(
 		octoprint.plugin.AssetPlugin,
@@ -21,12 +17,14 @@ class OctoLightPlugin(
 		octoprint.plugin.EventHandlerPlugin,
 		octoprint.plugin.RestartNeedingPlugin
 	):
-
-	light_state = False
+	def __init__(self):
+		light_state = False
+		wait_light  = False
+		wait_ok     = False
 
 	def get_settings_defaults(self):
 		return dict(
-			gCodeStateCommand = "M355",
+			gCodeStateCommand  = "M355",
 			gCodeToggleCommand = "M355 T"
 			
 		)
@@ -45,6 +43,33 @@ class OctoLightPlugin(
 			css=["css/octolight.css"],
 			#less=["less/octolight.less"]
 		)
+	
+	def get_api_commands(self):
+		return {'wait_command': []}
+	
+	def on_api_command(self, command, data):
+		if command == 'wait_command':
+			self.wait_ok = True
+			
+	def on_gcode_sending(self, comm, phase, cmd, cmd_type, gcode, subcode=None, tags=None, *args, **kwargs):
+		if cmd=='M355': self.wait_light = True
+		return None
+	
+	def on_gcode_recieved(self, comm, line, *args, **kwargs):
+		if ((not self.wait_light) and (not self.wait_ok)) or line.strip() in ['','wait','Not SD printing'] or line.strip()[:2]=='T:':
+			return line
+		if 'Case light:' in line.strip():
+			if ': OFF' in line.strip()
+				self.light_state = False
+			elif ': ON' in line.strip()
+				self.light_state = True
+		elif line.strip() == 'ok' or line.strip()[:2]=='ok':
+			self.wait_light = False
+			if self.wait_ok:
+				self.wait_ok = False
+		
+		return line
+	
 
 	def on_after_startup(self):
 		self.light_state = False
@@ -62,7 +87,7 @@ class OctoLightPlugin(
 		# Send GCode Command "gCodeStateCommand" and log response (Recv: echo:Case light: ON)
 		# If State= ON then set light_state = True, else False
 
-		
+		self.get_state()
 
 		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
@@ -73,17 +98,15 @@ class OctoLightPlugin(
 		 # Get new Light State
 
 		OctoPrint.control.sendGcode(self._settings.get(["gCodeToggleCommand"]))
-		OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
+		#OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
 		self.light_state = self.get_state()
 		
 		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
 	def get_state(self):
-		new_State = False
-		## TODO:
-		## Get Light State
-		## Set light_state accordingly
-		return new_State
+		
+		OctoPrint.control.sendGcode(self._settings.get(["gCodeStateCommand"]))
+		
 
 	def on_api_get(self, request):
 		action = request.args.get('action', default="toggle", type=str)
