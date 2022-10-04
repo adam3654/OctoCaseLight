@@ -18,9 +18,9 @@ class OctoLightPlugin(
 		octoprint.plugin.RestartNeedingPlugin
 	):
 	def __init__(self):
-		light_state = False
-		wait_light  = False
-		wait_ok     = False
+		self.light_state = False
+		self.wait_light  = False
+		self.wait_ok     = False
 
 	def get_settings_defaults(self):
 		return dict(
