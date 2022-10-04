@@ -97,15 +97,15 @@ class OctoLightPlugin(
 		 # Send Light Toggle Gcode Command
 		 # Get new Light State
 
-		octoprint.printer.PrinterInterface.commands(self._settings.get(["gCodeToggleCommand"]))
-		#octoprint.printer.PrinterInterface.commands(self._settings.get(["gCodeStateCommand"]))
+		self._printer.commands(self._settings.get(["gCodeToggleCommand"]))
+		#self._printer.commands(self._settings.get(["gCodeStateCommand"]))
 		self.light_state = self.get_state()
 		
 		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
 	def get_state(self):
 		
-		octoprint.printer.PrinterInterface.commands(self._settings.get(["gCodeStateCommand"]))
+		self._printer.commands(self._settings.get(["gCodeStateCommand"]))
 		
 
 	def on_api_get(self, request):
