@@ -156,9 +156,14 @@ class OctoLightPlugin(
 		)
 
 __plugin_pythoncompat__ = ">=2.7,<4"
-__plugin_implementation__ = OctoLightPlugin()
 
-__plugin_hooks__ = {
-	"octoprint.plugin.softwareupdate.check_config":
-	__plugin_implementation__.get_update_information
-}
+def __plugin_load__():
+	global __plugin_implementation__
+	__plugin_implementation__ = OctoLightPlugin()
+
+	global __plugin_hooks__
+	__plugin_hooks__ = {
+		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
+		"octoprint.comm.protocol.gcode.received": __plugin_implementation__.on_gcode_recieved,
+		"octoprint.comm.protocol.gcode.sending": __plugin_implementation__.on_gcode_sending
+	}
