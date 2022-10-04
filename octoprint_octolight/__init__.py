@@ -106,6 +106,7 @@ class OctoLightPlugin(
 	def get_state(self):
 		
 		self._printer.commands(self._settings.get(["gCodeStateCommand"]))
+		return self.light_state
 		
 
 	def on_api_get(self, request):
