@@ -59,9 +59,9 @@ class OctoLightPlugin(
 		if ((not self.wait_light) and (not self.wait_ok)) or line.strip() in ['','wait','Not SD printing'] or line.strip()[:2]=='T:':
 			return line
 		if 'Case light:' in line.strip():
-			if ': OFF' in line.strip()
+			if ': OFF' in line.strip():
 				self.light_state = False
-			elif ': ON' in line.strip()
+			elif ': ON' in line.strip():
 				self.light_state = True
 		elif line.strip() == 'ok' or line.strip()[:2]=='ok':
 			self.wait_light = False
