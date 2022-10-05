@@ -1,4 +1,4 @@
 include README.md
-recursive-include octoprint_octolight/templates *
-recursive-include octoprint_octolight/translations *
-recursive-include octoprint_octolight/static *
+recursive-include octoprint_octocaselight/templates *
+recursive-include octoprint_octocaselight/translations *
+recursive-include octoprint_octocaselight/static *
