@@ -109,7 +109,7 @@ class OctoLightPlugin(
 
 	def on_api_get(self, request):
 		action = request.args.get('action', default="toggle", type=str)
-
+		self.get_state()
 		if action == "toggle":
 			self.light_toggle()
 
