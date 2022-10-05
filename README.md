@@ -1,5 +1,7 @@
 # OctoCaseLight
 A simple plugin that adds a button to the navigation bar for toggling the case light using M355 commands.
+It is a fork of gigibu5's OctoLight plugin, adapted for gcode commands rather than rPi GPIO.
+
 
 ![WebUI interface](img/screenshot.png)
 
