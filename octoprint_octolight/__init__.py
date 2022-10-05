@@ -71,6 +71,9 @@ class OctoLightPlugin(
 				self.wait_ok = False
 		return line
 	
+	def on_server_connect(self, *args, **kwargs):
+		self.get_state()
+		return
 
 	def on_after_startup(self):
 		self.light_state = False
@@ -91,9 +94,11 @@ class OctoLightPlugin(
 		self.get_state()	
 		if (self.light_state):
 			self._printer.commands(self._settings.get(["gCodeOffCommand"]))
+			self.light_state = False
 		else:
 			self._printer.commands(self._settings.get(["gCodeOnCommand"]))
-		self.get_state()
+			self.light_state = True
+		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 		return
 
 
@@ -158,5 +163,6 @@ def __plugin_load__():
 	__plugin_hooks__ = {
 		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
 		"octoprint.comm.protocol.gcode.received": __plugin_implementation__.on_gcode_recieved,
-		"octoprint.comm.protocol.gcode.sending": __plugin_implementation__.on_gcode_sending
+		"octoprint.comm.protocol.gcode.sending": __plugin_implementation__.on_gcode_sending,
+		"octoprint.printer.handle_connect": __plugin_implementation__.on_server_connect
 	}
