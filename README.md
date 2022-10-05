@@ -1,7 +1,7 @@
 # OctoCaseLight
 A simple plugin that adds a button to the navigation bar for toggling the case light using M355 commands.
 
-![WebUI interface](img/screenshoot.png)
+![WebUI interface](img/screenshot.png)
 
 ## Setup
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
