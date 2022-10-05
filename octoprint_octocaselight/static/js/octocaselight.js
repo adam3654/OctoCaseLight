@@ -1,5 +1,5 @@
 $(function() {
-    function OctolightViewModel(parameters){
+    function OctocaselightViewModel(parameters){
     	var self = this;
 
         self.settingsViewModel = parameters[0]
@@ -13,7 +13,7 @@ $(function() {
         };
 
     	self.onDataUpdaterPluginMessage = function(plugin, data) {
-            if (plugin != "octolight") {
+            if (plugin != "octocaselight") {
                 return;
             }
 
@@ -34,8 +34,8 @@ $(function() {
     }
 
      OCTOPRINT_VIEWMODELS.push({
-        construct: OctolightViewModel,
+        construct: OctocaselightViewModel,
         dependencies: ["settingsViewModel","loginStateViewModel"],
-        elements: ["#navbar_plugin_octolight","#settings_plugin_octolight"]
+        elements: ["#navbar_plugin_octocaselight","#settings_plugin_octocaselight"]
     });
 });

@@ -41,9 +41,9 @@ class OctoCaseLightPlugin(
 		# Define your plugin's asset files to automatically include in the
 		# core UI here.
 		return dict(
-			js=["js/octolight.js"],
-			css=["css/octolight.css"],
-			#less=["less/octolight.less"]
+			js=["js/octocaselight.js"],
+			css=["css/octocaselight.css"],
+			#less=["less/octocaselight.less"]
 		)
 	
 	def get_api_commands(self):
@@ -78,7 +78,7 @@ class OctoCaseLightPlugin(
 	def on_after_startup(self):
 		self.light_state = False
 		self._logger.info("--------------------------------------------")
-		self._logger.info("OctoLight started, listening for GET request")
+		self._logger.info("OctoCaseLight started, listening for GET request")
 		self._logger.info("On_Command: {}, Off_Command: {}, State_Command: {}".format(
 			self._settings.get(["gCodeOnCommand"]),
 			self._settings.get(["gCodeOffCommand"]),
@@ -140,8 +140,8 @@ class OctoCaseLightPlugin(
 
 	def get_update_information(self):
 		return dict(
-			octolight=dict(
-				displayName="OctoLight",
+			octocaselight=dict(
+				displayName="OctoCaseLight",
 				displayVersion=self._plugin_version,
 
 				type="github_release",
