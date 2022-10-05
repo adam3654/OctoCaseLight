@@ -1,15 +1,21 @@
 <form class="form-horizontal">
 	<h3>OctoLight settings</h3>
 	<div class="control-group">
-		<label class="control-label">{{ _('Light Toggle GCODE Command') }}</label>
+		<label class="control-label">{{ _('Light On GCODE Command') }}</label>
 		<div class="controls">
-			<input id="light_pin-Toggle" type="text" class="input-small" data-bind="value: settings.plugins.octolight.gCodeToggleCommand">
+			<input id="light_On" type="text" class="input-small" data-bind="value: settings.plugins.octolight.gCodeOnCommand">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">{{ _('Light Off GCODE Command') }}</label>
+		<div class="controls">
+			<input id="light_Off" type="text" class="input-small" data-bind="value: settings.plugins.octolight.gCodeOffCommand">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">{{ _('Light State GCODE Command') }}</label>
 		<div class="controls">
-			<input id="light_pin-State" type="text" class="input-small" data-bind="value: settings.plugins.octolight.gCodeStateCommand">
+			<input id="light_State" type="text" class="input-small" data-bind="value: settings.plugins.octolight.gCodeStateCommand">
 		</div>
 	</div>
 </form>
