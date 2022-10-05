@@ -4,21 +4,21 @@
 ### Do not forget to adjust the following variables to your own plugin.
 
 # The plugin's identifier, has to be unique
-plugin_identifier = "octolight"
+plugin_identifier = "octocaselight"
 
 # The plugin's python package, should be "octoprint_<plugin identifier>", has to be unique
-plugin_package = "octoprint_octolight"
+plugin_package = "octoprint_octocaselight"
 
 # The plugin's human readable name. Can be overwritten within OctoPrint's internal data via __plugin_name__ in the
 # plugin module
-plugin_name = "OctoLight"
+plugin_name = "OctoCaseLight"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "0.1.4"
+plugin_version = "0.0.1"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
-plugin_description = """A simple plugin, that adds a button to the navbar, toggleing the status of the Case Light. It can be used for turning on and off a light."""
+plugin_description = """A simple plugin that adds a button to the navbar, toggling the status of the Case Light (M355). It can be used for turning on and off a light."""
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
 plugin_author = "Adam Wellington"
@@ -27,7 +27,7 @@ plugin_author = "Adam Wellington"
 plugin_author_email = "adam3654@gmail.com"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
-plugin_url = "https://github.com/adam3654/OctoLight"
+plugin_url = "https://github.com/adam3654/OctoCaseLight"
 
 # The plugin's license. Can be overwritten within OctoPrint's internal data via __plugin_license__ in the plugin module
 plugin_license = "AGPLv3"
