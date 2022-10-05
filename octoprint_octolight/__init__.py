@@ -8,7 +8,7 @@ from octoprint.events import Events
 import flask
 
 
-class OctoLightPlugin(
+class OctoCaseLightPlugin(
 		octoprint.plugin.AssetPlugin,
 		octoprint.plugin.StartupPlugin,
 		octoprint.plugin.TemplatePlugin,
@@ -148,8 +148,8 @@ class OctoLightPlugin(
 				current=self._plugin_version,
 
 				user="adam3654",
-				repo="OctoLight",
-				pip="https://github.com/adam3654/OctoLight/archive/master.zip"
+				repo="OctoCaseLight",
+				pip="https://github.com/adam3654/OctoCaseLight/archive/refs/heads/master.zip"
 			)
 		)
 
@@ -157,7 +157,7 @@ __plugin_pythoncompat__ = ">=2.7,<4"
 
 def __plugin_load__():
 	global __plugin_implementation__
-	__plugin_implementation__ = OctoLightPlugin()
+	__plugin_implementation__ = OctoCaseLightPlugin()
 
 	global __plugin_hooks__
 	__plugin_hooks__ = {
