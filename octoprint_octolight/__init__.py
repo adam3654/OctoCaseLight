@@ -25,7 +25,9 @@ class OctoLightPlugin(
 	def get_settings_defaults(self):
 		return dict(
 			gCodeStateCommand  = "M355",
-			gCodeToggleCommand = "M355 T"
+			gCodeOnCommand = "M355 S1",
+			gCodeOffCommand = "M355 S0"
+			#isLightOn          = False
 			
 		)
 
@@ -63,12 +65,10 @@ class OctoLightPlugin(
 				self.light_state = False
 			elif ': ON' in line.strip():
 				self.light_state = True
-			self.wait_light = False
 		elif line.strip() == 'ok' or line.strip()[:2]=='ok':
 			self.wait_light = False
 			if self.wait_ok:
 				self.wait_ok = False
-		
 		return line
 	
 
@@ -76,39 +76,31 @@ class OctoLightPlugin(
 		self.light_state = False
 		self._logger.info("--------------------------------------------")
 		self._logger.info("OctoLight started, listening for GET request")
-		self._logger.info("Toggle_Command: {}, State_Command: {}".format(
-			self._settings.get(["gCodeToggleCommand"]),
+		self._logger.info("On_Command: {}, Off_Command: {}, State_Command: {}".format(
+			self._settings.get(["gCodeOnCommand"]),
+			self._settings.get(["gCodeOffCommand"]),
 			self._settings.get(["gCodeStateCommand"])
 		))
 		self._logger.info("--------------------------------------------")
-
-		# Setting the default state of pin
-
-		# TODO:
-		# Send GCode Command "gCodeStateCommand" and log response (Recv: echo:Case light: ON)
-		# If State= ON then set light_state = True, else False
-
 		self.get_state()
+		return
 
-		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
 	def light_toggle(self):
-		# Sets the GPIO every time, if user changed it in the settings.
-		 # TODO:
-		 # Send Light Toggle Gcode Command
-		 # Get new Light State
+		# Sets the GPIO every time, if user changed it in the settings.	
+		self.get_state()	
+		if (self.light_state):
+			self._printer.commands(self._settings.get(["gCodeOffCommand"]))
+		else:
+			self._printer.commands(self._settings.get(["gCodeOnCommand"]))
+		self.get_state()
+		return
 
-		self._printer.commands(self._settings.get(["gCodeToggleCommand"]))
-		#self._printer.commands(self._settings.get(["gCodeStateCommand"]))
-		self.light_state = self.get_state()
-		
-		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
 
-	def get_state(self):
-		
+	def get_state(self):		
 		self._printer.commands(self._settings.get(["gCodeStateCommand"]))
-		return self.light_state
-		
+		self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
+		return
 
 	def on_api_get(self, request):
 		action = request.args.get('action', default="toggle", type=str)
@@ -139,8 +131,7 @@ class OctoLightPlugin(
 	def on_event(self, event, payload):
 		if event == Events.CLIENT_OPENED:
 			self.get_state()
-			self._plugin_manager.send_plugin_message(self._identifier, dict(isLightOn=self.light_state))
-			return
+		return
 
 	def get_update_information(self):
 		return dict(
@@ -153,7 +144,7 @@ class OctoLightPlugin(
 
 				user="adam3654",
 				repo="OctoLight",
-				pip="https://github.com/adam3654/OctoLight/archive/{target}.zip"
+				pip="https://github.com/adam3654/OctoLight/archive/master.zip"
 			)
 		)
 
