@@ -52,7 +52,7 @@ class OctoLightPlugin(
 			self.wait_ok = True
 			
 	def on_gcode_sending(self, comm, phase, cmd, cmd_type, gcode, subcode=None, tags=None, *args, **kwargs):
-		if cmd=='M355': self.wait_light = True
+		if 'M355' in cmd: self.wait_light = True
 		return None
 	
 	def on_gcode_recieved(self, comm, line, *args, **kwargs):
@@ -63,6 +63,7 @@ class OctoLightPlugin(
 				self.light_state = False
 			elif ': ON' in line.strip():
 				self.light_state = True
+			self.wait_light = False
 		elif line.strip() == 'ok' or line.strip()[:2]=='ok':
 			self.wait_light = False
 			if self.wait_ok:
