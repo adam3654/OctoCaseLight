@@ -2,12 +2,16 @@
 A simple plugin that adds a button to the navigation bar for toggling the case light using M355 commands.
 It is a fork of gigibu5's OctoLight plugin, adapted for gcode commands rather than rPi GPIO.
 
-
 ![WebUI interface](img/screenshot.png)
 
+I am using this plugin to control an LED light bar that is above my printer, and plugged into the neopixel port (through an adapter) of the SKR mini e3 motherboard. 
+The adapter consists of a female USB port to plug the light bar into, a 3-conductor cable for plugging into the motherboard, a SPDT switch (for overriding the motherboard control), and an N-Channel MOSFET that resides between the ground wires of the USB port and the 3-conductor cable. The gate of the MOSFET is controlled by the control pin of the neopixel port. A 10k ohm resistor is connected from the gate to source pins of the MOSFET to make sure it switches off when required. 
+
+![WebUI interface](img/MOSFET_case.png)
+
+
 ## Setup
-Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
-or manually using this URL:
+Install manually using this URL:
 
 	https://github.com/adam3654/OctoCaseLight/archive/master.zip
 
